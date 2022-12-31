@@ -3,6 +3,6 @@
     { "source": "/(.*)", "destination": "/" },
     { "source": "/create-message", "destination": "/create-message" },
     { "source": "/messages", "destination": "/messages"},
-    { "source": "/edit-messages/(?<id>.+)/?", "destination": "/edit-messages" }
+    { "source": "/edit-messages/:id", "destination": "/edit-messages:id" }
   ]
 }
