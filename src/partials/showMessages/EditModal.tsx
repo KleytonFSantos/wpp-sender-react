@@ -1,5 +1,5 @@
-import { SyntheticEvent, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import { Button } from "../../components/global/Button";
 import { Input } from "../../components/global/Input";
 import { Textarea } from "../../components/global/Textarea";
@@ -31,7 +31,7 @@ export const EditModal = ({
       message: message,
       dueDate: dueDateTime,
     });
-
+    
     handleCloseModal();
   };
 
@@ -105,6 +105,7 @@ export const EditModal = ({
                           </div>
                           <div className="w-full flex flex-row gap-2">
                             <Button
+                              type="button"
                               onClick={handleEditMessage} 
                               title="Save" />
                           </div>

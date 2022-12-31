@@ -40,8 +40,11 @@ export const useMessages = () => {
         message,
         dueDate,
       })
-      .then(async () => {
-        await getMessages();
+      .then(async (response) => {
+        console.log(response);
+        if (response.status === 200) {
+          getMessages();
+        }
         toast.success("Message edited successfully");
       })
       .catch((error) => {
