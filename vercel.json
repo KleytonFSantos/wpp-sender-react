@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" },
+    { "source": "/create-message", "destination": "/create-message" },
+    { "source": "/messages", "destination": "/messages"}
+  ]
+}
