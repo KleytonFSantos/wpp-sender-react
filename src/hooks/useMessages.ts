@@ -32,7 +32,9 @@ export const useMessages = () => {
 
   const editMessage = async (
     id: number,
-    { phoneNumber, message, dueDate }: EditMessage
+    { phoneNumber, message, dueDate }: EditMessage,
+    succesF: () => void,
+    errorF: (error: string) => void
   ) => {
     await axios
       .patch(baseUrl + "/message/" + id, {
@@ -40,16 +42,21 @@ export const useMessages = () => {
         message,
         dueDate,
       })
-      .then(async (response) => {
-        console.log(response);
-        if (response.status === 200) {
-          getMessages();
-        }
+      .then(() => {
+        succesF();
         toast.success("Message edited successfully");
       })
       .catch((error) => {
-        console.log(error);
-        toast.error("An error occurred!");
+        const inputError = error.response.data.message;
+        if (inputError) {
+          try {
+            inputError.map((err: string) => {
+              toast.error(err);
+            });
+          } catch {
+            toast.error("An error occurred!");
+          }
+        }
       });
   };
 

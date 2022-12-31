@@ -1,12 +1,12 @@
 type Props = {
-    title: string;
-    type: "button" | "submit" | "reset" | undefined;
-    onClick?: () => void;
+  title: string;
+  onClick?: () => void;
+  type?: "button" | "submit" | "reset" | undefined;
 };
 export const Button = ({ title, onClick, type }: Props) => {
   return (
     <button
-      type={ type}
+      type={type}
       onClick={onClick}
       className=" w-full 
                         px-4 py-2 

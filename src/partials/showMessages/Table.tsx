@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Loading } from "../../components/global/Loading";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 import DeleteSweepTwoToneIcon from "@mui/icons-material/DeleteSweepTwoTone";
+import { Navigate } from "react-router-dom";
 
 type Messages = {
   id: number;
@@ -15,10 +16,6 @@ type Messages = {
   message: string;
   dueDateTime: string;
   status: string;
-};
-
-type Props = {
-  handleOpenModal: (id: number) => void;
 };
 
 const blue = {
@@ -143,7 +140,7 @@ const CustomTablePagination = styled(TablePaginationUnstyled)(
   `
 );
 
-export const Table = ({ handleOpenModal }: Props) => {
+export const Table = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -248,25 +245,27 @@ export const Table = ({ handleOpenModal }: Props) => {
                     </span>
                   )}
                 </td>
-                {status === "WAITING" && (
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <button
-                      type="button"
-                      title="Edit Message"
-                      onClick={() => handleOpenModal(id)}
-                    >
-                      <ModeEditOutlineTwoToneIcon />
-                    </button>
-                    <button
-                      title="Delete Message"
-                      onClick={() => handleDeleteMessage(id)}
-                      type="button"
-                      className="ml-3"
-                    >
-                      <DeleteSweepTwoToneIcon />
-                    </button>
-                  </td>
-                )}
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                  {status === "WAITING" && (
+                    <>
+                      <a
+                        href={`edit-message/${id}`}
+                        type="button"
+                        title="Edit Message"
+                      >
+                        <ModeEditOutlineTwoToneIcon />
+                      </a>
+                      <button
+                        title="Delete Message"
+                        onClick={() => handleDeleteMessage(id)}
+                        type="button"
+                        className="ml-3"
+                      >
+                        <DeleteSweepTwoToneIcon />
+                      </button>
+                    </>
+                  )}
+                </td>
               </tr>
             )
           )}

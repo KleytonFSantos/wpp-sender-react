@@ -1,45 +1,49 @@
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import { Button } from "../components/global/Button";
 import { Input } from "../components/global/Input";
-import { Textarea } from "../components/global/Textarea";
-import { useAddMessage } from "../hooks/useAddMessage";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Loading } from "../components/global/Loading";
+import { Textarea } from "../components/global/Textarea";
+import { useMessages } from "../hooks/useMessages";
 
-export const CreateMessage = () => {
+export const EditMessage = () => {
   const [message, setMessage] = useState("");
   const [number, setNumber] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-
-  const { addMessage, isLoading } = useAddMessage();
-  
-  const handleAddMessage = async () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { isLoading, editMessage } = useMessages();
+  const handleEditMessage = async (e: SyntheticEvent) => {
+    e.preventDefault();
     const dueDateTime = `${date}T${time}:00.000Z`;
-    await addMessage({
-      phoneNumber: number,
-      message: message,
-      dueDate: dueDateTime,
-    }, () => {
-      toast.success('Message created successfully')
-    }, (error) => {
-        error.map(err => toast.error(err))
-    });
+    const messageId = parseInt(id as string);
+    await editMessage(
+      messageId,
+      {
+        phoneNumber: number,
+        message: message,
+        dueDate: dueDateTime,
+      },
+      () => {
+        toast.success("Message edited successfully");
+        navigate("/messages");
+      },
+      () => {}
+    );
   };
 
   if (isLoading) {
-    return <Loading />;
+    <Loading />;
   }
-
-
 
   return (
     <div className="container px-24 h-full justify-center flex">
       <ToastContainer />
       <div className=" w-full">
         <form
-          onSubmit={handleAddMessage}
+          onSubmit={handleEditMessage}
           className="pt-8 text-xl font-semibold"
         >
           Create message
@@ -75,7 +79,7 @@ export const CreateMessage = () => {
               />
             </div>
           </div>
-          <Button title="Create" />
+          <Button title="Edit" />
         </form>
       </div>
     </div>
